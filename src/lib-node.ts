@@ -1,6 +1,6 @@
 import { Readable, Stream } from "stream";
 import { FSInterface } from "./lib";
-import { join, isAbsolute, parse } from "path";
+import { join, isAbsolute, parse, normalize } from "path";
 import promises from "fs/promises";
 import fs from "fs";
 
@@ -8,7 +8,7 @@ let Root: string;
 
 const sanitizedPath = async (path: string) => {
   const original = path;
-  if (isAbsolute(path)) {
+  if (isAbsolute(path) && path == normalize(path)) {
     path = join(Root, path);
     await promises.mkdir(parse(path).dir, { recursive: true });
     return path;
