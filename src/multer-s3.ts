@@ -1,13 +1,15 @@
+import { randomUUID } from "crypto";
 import { Request } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
-import { DiskStorageOptions, StorageEngine } from "multer";
+import { StorageEngine } from "multer";
+import path from "path";
 import { ParsedQs } from "qs";
 import FS from "./lib";
 
 type Destination =
   | string
   | ((req: Request, file: Express.Multer.File) => string);
-class CustomStorageEngine implements StorageEngine {
+export default class CustomStorageEngine implements StorageEngine {
   destination: Destination;
   constructor(config: { destination: Destination }) {
     this.destination = config.destination;
@@ -21,17 +23,18 @@ class CustomStorageEngine implements StorageEngine {
       info?: Partial<Express.Multer.File> | undefined
     ) => void
   ): void {
-    let fullpath: string;
-
-    if (typeof this.destination === "string") fullpath = this.destination;
-    else
+    if (typeof this.destination === "string") {
+      file.destination = this.destination;
+    } else
       try {
-        fullpath = this.destination(req, file);
+        file.destination = this.destination(req, file);
       } catch (err) {
         callback(err);
         return;
       }
 
+    file.filename = randomUUID() + path.extname(file.originalname);
+    file.path = path.join(file.destination, file.filename);
     FS.writeStream(file.path, file.stream)
       .then(() => callback(null, file))
       .catch((err) => callback(err));
