@@ -8,7 +8,7 @@ import {
 import { Readable, Stream } from "stream";
 import { Upload } from "@aws-sdk/lib-storage";
 import { buffer } from "stream/consumers";
-import { FSInterface } from "./lib";
+import { FSInterface } from "../index";
 
 let Client: S3Client;
 let Bucket: string;
