@@ -1,5 +1,5 @@
 {
-  "name": "s3-interface",
+  "name": "native-s3-interface",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
