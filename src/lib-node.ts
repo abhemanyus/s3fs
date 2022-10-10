@@ -1,5 +1,5 @@
 import { Readable, Stream } from "stream";
-import { FSInterface } from "./lib";
+import { FSInterface } from "../index";
 import { join, isAbsolute, parse, normalize } from "path";
 import promises from "fs/promises";
 import fs from "fs";

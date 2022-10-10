@@ -1,23 +1,7 @@
+import CustomStorageEngine from "./src/multer";
+import S3_FS, { Init as InitS3 } from "./src/lib-aws";
+import NODE_FS, { Init as InitNode } from "./src/lib-node";
 import { Readable, Writable } from "stream";
-
-import S3_FS, { Init as InitS3 } from "./lib-aws";
-import NODE_FS, { Init as InitNode } from "./lib-node";
-
-let FS: FSInterface;
-
-if (process.env.STORAGE == "S3") {
-    FS = S3_FS;
-    InitS3({
-        accessKeyId: "supersecretkey",
-        secretAccessKey: "supersecretkey",
-        bucket: "superbucket",
-        region: "australia"
-    });
-} else {
-    FS = NODE_FS;
-    InitNode("/tmp");
-}
-
 export interface FSInterface {
   uploadStream(dest: string): {
     writeStream: Writable;
@@ -34,6 +18,8 @@ export interface FSInterface {
   writeStream(dest: string, stream: Readable): Promise<void>;
   rename(src: string, dest: string): Promise<void>;
 }
-
-export default FS;
-
+export default {
+  multer: CustomStorageEngine,
+  S3: { S3_FS, InitS3 },
+  NODE: { NODE_FS, InitNode },
+};
