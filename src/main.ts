@@ -1,10 +1,10 @@
 import { Filesystem, S3Filesystem, DirPath, Directory } from "./lib";
 
 const fs: Filesystem = new S3Filesystem({
-  secretAccessKey: "eScLoCcEprWLHNgxYz6vTMPyKmwKwpmD6YjNCSJx",
-  accessKeyId: "AKIAX5ESIVMAHARNUTUH",
-  bucket: "aru-media-test",
-  region: "ap-south-1",
+  secretAccessKey: "ofsjdoi[fjoisdjoids",
+  accessKeyId: "hfjgyjyuvb",
+  bucket: "bucket",
+  region: "us-east-1",
 });
 
 async function main() {
